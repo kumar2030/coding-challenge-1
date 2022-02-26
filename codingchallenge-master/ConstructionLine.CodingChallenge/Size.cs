@@ -16,9 +16,9 @@ namespace ConstructionLine.CodingChallenge
         }
 
 
-        public static Size Small = new Size(Guid.NewGuid(), "Small");
-        public static Size Medium = new Size(Guid.NewGuid(), "Medium");
-        public static Size Large = new Size(Guid.NewGuid(), "Large");
+        public static Size Small = new Size(Guid.NewGuid(), Constants.Size.Small);
+        public static Size Medium = new Size(Guid.NewGuid(), Constants.Size.Medium);
+        public static Size Large = new Size(Guid.NewGuid(), Constants.Size.Large);
 
 
         public static List<Size> All = 
