@@ -208,8 +208,8 @@ namespace ConstructionLine.CodingChallenge.Tests
 
             var searchOptions = new SearchOptions
             {
-                Sizes = new List<Size> { Size.Small, Size.Medium, Size.Large },
-                Colors = new List<Color> {Color.Red, Color.Black, Color.Blue, Color.White, Color.Yellow}
+                Sizes = new List<Size> { Size.Small },
+                Colors = new List<Color> {Color.Red, Color.Black}
             };
 
             // Act
@@ -229,7 +229,7 @@ namespace ConstructionLine.CodingChallenge.Tests
             {
             };
 
-            var searchEngine = new SearchEngine(null);
+            var searchEngine = new SearchEngine(shirts);
 
             var searchOptions = new SearchOptions
             {

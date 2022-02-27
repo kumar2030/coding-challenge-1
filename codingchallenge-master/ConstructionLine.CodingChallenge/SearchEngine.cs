@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ConstructionLine.CodingChallenge.ExtensionMethods;
 
@@ -10,13 +11,18 @@ namespace ConstructionLine.CodingChallenge
 
         public SearchEngine(List<Shirt> shirts)
         {
-            _shirts = shirts ?? new List<Shirt>();
+            _shirts = shirts ?? throw new ArgumentNullException(nameof(shirts));
         }
 
 
         public SearchResults Search(SearchOptions options)
         {
-            var shirts = _shirts.FindAll(o => options.Sizes.Contains(o.Size) || options.Colors.Contains(o.Color))
+            if (options == null)
+            {
+                throw new ArgumentNullException(nameof(options));
+            }
+
+            var shirts = _shirts.FindAll(o => (!options.Sizes.Any() || options.Sizes.Contains(o.Size)) && (!options.Colors.Any() || options.Colors.Contains(o.Color)))
                 .DistinctBy(o => o.Id).ToList();
 
             return new SearchResults
@@ -29,22 +35,13 @@ namespace ConstructionLine.CodingChallenge
 
         private static List<SizeCount> SizeCounts(List<Shirt> shirts)
         {
-            var sizeCounts = new List<SizeCount>();
-            Size.All.ForEach(o =>
-            {
-                sizeCounts.Add(new SizeCount() {Size = o, Count = shirts.Count(r => r.Size.Id == o.Id)});
-            });
-            return sizeCounts;
+            return Size.All.Select(o => new SizeCount() {Size = o, Count = shirts.Count(r => r.Size.Id == o.Id)}).ToList();
         }
 
         private static List<ColorCount> ColorCounts(List<Shirt> shirts)
         {
-            var colorCounts = new List<ColorCount>();
-            Color.All.ForEach(o =>
-            {
-                colorCounts.Add(new ColorCount() {Color = o, Count = shirts.Count(r => r.Color.Id == o.Id)});
-            });
-            return colorCounts;
+            return Color.All.Select(o =>
+                new ColorCount() {Color = o, Count = shirts.Count(r => r.Color.Id == o.Id)}).ToList();
         }
     }
 }
